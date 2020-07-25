@@ -1,47 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta name="theme-color" content="#317EFB">
-  <link rel="shortcut icon" href="icons/icon-192x192.png" type="image/x-icon">
 
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="styles.css">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="theme-color" content="#317EFB">
+    <link rel="shortcut icon" href="icons/icon-192x192.png" type="image/x-icon">
+    <link rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.webmanifest">
 
-  <title>Budget Tracker</title>
-</head>
-<body>
-  <div class="wrapper">
-    <div class="total">
-      <div class="total">Your total is: $<span id="total">0</span></div>
+    <title>Budget Tracker</title>
+  </head>
+
+  <body>
+    <div class="wrapper">
+
+      <div class="row">
+        <div class="total">
+          <h1 class="total">Total Budget: $<span id="total">0</span></h1>
+        </div>
+        <hr>
+        <div class="form">
+          <h3>Add a Transaction</h3>
+          <div class="form-row">
+            <label>Name: </label>
+            <input type="text" id="t-name" placeholder="" />
+          </div>
+          <div class="form-row">
+            <label>Amount: </label>
+            <input type="number" min="0" id="t-amount" placeholder="" />
+          </div>
+          <div class="form-row">
+            <button id="add-btn"><i class="fa fa-plus buttons"></i>&nbsp; Add
+              Funds</button>
+            <button id="sub-btn"><i class="fa fa-minus"></i>&nbsp; Subtract
+              Funds</button>
+            <p class="error"></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="transactions" style="text-align: center">
+          <h2>Past Transactions</h2>
+          <hr>
+          <table>
+            <thead>
+              <th>Name</th>
+              <th>Amount</th>
+            </thead>
+            <tbody id="tbody">
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="row">
+        <h2>Total Over Time</h2>
+        <hr>
+        <canvas id="myChart"></canvas>
+      </div>
+
     </div>
 
-    <div class="form">
-      <input type="text" id="t-name" placeholder="Name of transaction" />
-      <input type="number" min="0" id="t-amount" placeholder="Transaction amount" />
-      <button id="add-btn"><i class="fa fa-plus buttons"></i> Add Funds</button>
-      <button id="sub-btn"><i class="fa fa-minus"></i> Subtract Funds</button>
-      <p class="error"></p>
-    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+    <script src="db.js"></script>
+    <script src="index.js"></script>
+    <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("service-worker.js").then(reg => {
+          console.log("Your service worker file was found!", reg);
+        });
+      });
+    }
+  </script>
+  </body>
 
-    <div class="transactions">
-      <table>
-        <thead>
-          <th>Transaction</th>
-          <th>Amount</th>
-        </thead>
-        <tbody id="tbody">
-          
-        </tbody>
-      </table>
-    </div>
-    
-    <canvas id="myChart"></canvas>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-  <script src="index.js"></script>
-</body>
 </html>
