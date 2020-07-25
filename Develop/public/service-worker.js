@@ -1,27 +1,34 @@
+// add files to cache
 const FILES_TO_CACHE = [
   "/",
   "/index.html",
-  "/style.css",
+  "/styles.css",
   "/index.js",
-  "/db.json",
-  "/icon/icon-512x512.png",
-  "icon/icon-192x192.png",
+  "/db.js",
+  "/manifest.webmanifest",
+  "/icons/icon-192x192.png",
+  "/icons/icon-512x512.png",
 ];
+
+// name static cache and data cache
 const CACHE_NAME = "static-cache-v2";
 const DATA_CACHE_NAME = "data-cache-v1";
 
-self.addEventListener("install", (e) => {
-  e.waitUntil(
+// install service worker
+self.addEventListener("install", function (evt) {
+  evt.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log("Your files were pre-cached successfully");
+      console.log("Your files were pre-cached successfully!");
       return cache.addAll(FILES_TO_CACHE);
     })
   );
+
   self.skipWaiting();
 });
 
-self.addEventListener("activate", (e) => {
-  e.waitUntil(
+// activate service worker
+self.addEventListener("activate", function (evt) {
+  evt.waitUntil(
     caches.keys().then((keyList) => {
       return Promise.all(
         keyList.map((key) => {
@@ -33,33 +40,42 @@ self.addEventListener("activate", (e) => {
       );
     })
   );
+
   self.clients.claim();
 });
 
-self.addEventListener("fetch", (e) => {
-  if (e.request.url.includes("/api")) {
-    e.respondWith(
+// listen for fetchs to the api
+self.addEventListener("fetch", function (evt) {
+  // cache successful requests to the API
+  if (evt.request.url.includes("/api")) {
+    evt.respondWith(
       caches
         .open(DATA_CACHE_NAME)
         .then((cache) => {
-          return fetch(e.request)
+          return fetch(evt.request)
             .then((response) => {
-              if (response.status == 200) {
-                cache.put(e.request.url, response.clone());
+              // If the response was good, clone it and store it in the cache.
+              if (response.status === 200) {
+                cache.put(evt.request.url, response.clone());
               }
+
               return response;
             })
             .catch((err) => {
-              return cache.match(e.request);
+              // if network request failed, try to get it from the cache.
+              return cache.match(evt.request);
             });
         })
-        .catch((err) => console.error(err))
+        .catch((err) => console.log(err))
     );
+
     return;
   }
-  e.respondWith(
-    caches.match(e.request).then((response) => {
-      return response || fetch(e.request);
+
+  // if the request is not for the API, serve static assets
+  evt.respondWith(
+    caches.match(evt.request).then(function (response) {
+      return response || fetch(evt.request);
     })
   );
 });
