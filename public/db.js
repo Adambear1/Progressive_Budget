@@ -1,6 +1,6 @@
 let db;
 
-// create a new database rquest and connection
+// create a new database request and connection
 const request = indexedDB.open("budget", 1);
 
 // on upgrade needed create a new object store called pending
