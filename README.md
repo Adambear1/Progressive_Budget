@@ -1,61 +1,57 @@
-# Unit 18 PWA Homework: Online/Offline Budget Trackers
+# [Budget-Tracker](https://github.com/Adambear1/Progressive_Budget)
 
-Add functionality to our existing Budget Tracker application to allow for offline access and functionality.
+## Description
 
-The user will be able to add expenses and deposits to their budget with or without a connection. When entering transactions offline, they should populate the total when brought back online.
+Budget Tracker is a progressive web application that allows the user to track their finances, with or without internet connection. My task with this project was to add functionality to a pre-built application to allow for offline access and functionality. I added some minor stylistic changes, but the front-end logic remained the same. This application achieves offline functionality by utilizing Service Workers and the Cache API to store static files and API responses in the users local cache. When the user is offline they have access to this data and these cached files. While offline, they may add an expense or deposit, which is stored in their local IndexedDB database. When internet connection is detected, those transactions are posted from their IndexedDB database to their MongoDB database. Their total budget is then updated, and their IndexedDB pending object store is cleared.
 
-Offline Functionality:
+<p float="left">
+<img src="./public/images/add.png" alt="Dashboard Image" height="145px" style="margin: 10px;"/>
+<img src="./public/images/table.png" alt="Homepage Image" height="145px" style="margin: 10px;"/>
+<img src="./public/images/chart.png" alt="Login Page Image" height="145px" style="margin: 10px;"/>
+</p>
 
-  * Enter deposits offline
+## Table of Contents
 
-  * Enter expenses offline
+- [Technologies](#technologies)
+- [Usage](#usage)
+- [Finished Product](#finished-product)
+- [Directions for Future Development](#Directions-for-future-Development)
 
-When brought back online:
+## Technologies
 
-  * Offline entries should be added to tracker.
+- [HTML](https://html.com/)
+- [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS)
+- [JavaScript](https://www.javascript.com/)
+- [Node.js](https://nodejs.org/en/)
+- [Express.js](https://expressjs.com/)
+- [MongoDB](https://www.mongodb.com/)
+- [Mongo Atlas](https://www.mongodb.com/cloud/atlas)
+- [Mongoose](https://www.npmjs.com/package/mongoose)
+- [IndexedDB](https://developer.mozilla.org/en-US/docs/Web/API/IndexedDB_API)
+- [Service Workers](https://developers.google.com/web/fundamentals/primers/service-workers)
+- [Cache API](https://developer.mozilla.org/en-US/docs/Web/API/Cache)
+- [Heroku](https://dashboard.heroku.com/apps)
 
-## User Story
-AS AN avid traveller
-I WANT to be able to track my withdrawals and deposits with or without a data/internet connection
-SO THAT my account balance is accurate when I am traveling
+## Usage
 
-## Business Context
+- Navigate to the [deployed Heroku App](https://adam-budget-tracker.herokuapp.com/).
+- Enter a transaction name and amount, choose whether the transaction is a deposit (add funds) or an expense (subtract funds).
+- View a table containing past transactions.
+- View a chart that tracks your total budget over time.
+- While offline you may continue to view the application and add transactions.
+- When internet is detected, your total budget will update based on those transactions.
+- To test offline capabilities either:
+  - Turn your wifi off or
+  - Open your browsers' Dev Tools --> Application --> Service Workers --> Check the "Offline" box.
 
-Giving users a fast and easy way to track their money is important, but allowing them to access that information anytime is even more important. Having offline functionality is paramount to our applications success.
+## Finished Product
 
+View deployed Heroku app [here](https://adam-budget-tracker.herokuapp.com/). <br>
 
-## Acceptance Criteria
-GIVEN a user is on Budget App without an internet connection
-WHEN the user inputs a withdrawal or deposit
-THEN that will be shown on the page, and added to their transaction history when their connection is back online.
+![](/public/images/pwa-budget.gif)
 
-- - -
+## Directions for Future Development
 
-## Commit Early and Often
+While this application does successfully allow for the user to add and view expenses while they're offline, I think it would be useful for them to be able to delete and update expenses as well. In the future I would do so using the same process as described in the [description](#description) above.
 
-* One of the most important skills to master as a web developer is version control. Building the habit of committing via Git is important for two reasons:
-
-1. Your commit history is a signal to employers that you are actively working on projects and learning new skills
-
-2. Your commit history allows you to revert your code base in the event that you need to return to a previous state
-
-* Follow these guidelines for committing:
-
-  * Make single purpose commits for related changes to ensure a clean, manageable history. If you are fixing two issues, make two commits
-
-  * Write descriptive, meaningful commit messages so that you and anyone else looking at your repository can easily understand its history
-
-  * Don't commit half done work, for the sake of your collaborators (and your future self!)
-
-  * Test your application before you commit to ensure functionality at every step in the development process
-
-* We would like you to have well over 200 commits by graduation, so commit early and often!
-
-## Submission on BCS
-
-* You are required to submit the following:
-
-  * the URL to the deployed application
-
-  * the URL to the Github repository
-
+When the deployed application is loaded for the first time in awhile, it takes a couple seconds for the transactions and budget data to be accessed from the Mongo database. Since this only happens the first time the app is loaded in awhile, I suspect it's because of Heroku and the way it unloads unused applications and data from server memory. However, the couple seconds it takes feels too slow and in the future I'd like to try and figure out a way to fix this.
