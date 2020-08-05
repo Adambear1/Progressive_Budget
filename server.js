@@ -4,7 +4,7 @@ const mongoose = require("mongoose");
 const helmet = require("helmet");
 const compression = require("compression");
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3050;
 const app = express();
 
 app.use(helmet());
